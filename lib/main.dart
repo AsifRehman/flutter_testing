@@ -23,20 +23,15 @@ final numProvider = Provider<int>((ref) {
   return 42;
 });
 
-class MyHomePage extends StatelessWidget {
+class MyHomePage extends ConsumerWidget {
   const MyHomePage({Key key}) : super(key: key);
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, ScopedReader watch) {
+    final number = watch(numProvider);
+
     return Scaffold(
-      body: Center(
-        child: Consumer(
-          builder: (context, watch, child) {
-            final number = watch(numProvider);
-            return Text(number.toString());
-          },
-        ),
-      ),
+      body: Center(child: Text(number.toString())),
     );
   }
 }
