@@ -23,15 +23,34 @@ final numProvider = Provider<int>((ref) {
   return 42;
 });
 
+final numStateProvider = StateProvider<int>((ref) {
+  return 42;
+});
+
 class MyHomePage extends ConsumerWidget {
   const MyHomePage({Key key}) : super(key: key);
 
   @override
   Widget build(BuildContext context, ScopedReader watch) {
     final number = watch(numProvider);
+    final numberState = watch(numStateProvider).state;
 
     return Scaffold(
-      body: Center(child: Text(number.toString())),
+      body: Column(
+        crossAxisAlignment: CrossAxisAlignment.center,
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Center(child: Text("Provider: " + number.toString())),
+          Center(child: Text("stateProvider: " + numberState.toString())),
+        ],
+      ),
+      floatingActionButton: FloatingActionButton(
+        onPressed: () => increment(context),
+      ),
     );
+  }
+
+  void increment(BuildContext context) {
+    context.read(numStateProvider).state++;
   }
 }
